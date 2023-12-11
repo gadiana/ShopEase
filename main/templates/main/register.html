@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-full">
+        <div id="pannel" style="width: 25rem; padding-left: 50px; padding-right:50px; ">
+            <form action="{% url 'register' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="center">
+                    <h1 style="color: white;">
+                        Register
+                    </h1>    
+                </div>
+                <br>
+                <label style="color: white;" for="username">Username</label>
+                <div class="center">
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <br>
+                <label style="color: white;" for="email">Email</label>
+                <div class="center">
+                    <input type="text" name="email" id="email" required>
+                </div>
+                <br>
+                <label style="color: white;" for="password">Password</label>
+                <div class="center">
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <br>
+                <div class="center">
+                    <button type="submit" id="register">Register</button>
+                </div>
+                <br>
+                <div class="center">
+                    <p style="color: white;">Already have an account?</p>
+                    <a href="{% url 'login' %}">&#160; Login</a>
+                </div>
+                <br>
+                <div class="center">
+                    <a href="{% url 'index' %}">Back to Home</a>
+                </div>
+            </form>
+        </div>
+        <!-- <form action="" method="POST">
+            {{form}}
+        </form> -->
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

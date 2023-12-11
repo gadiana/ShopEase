@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Cart Details</title>
+</head>
+<body>
+    <div class="wholecontainer">
+        {% csrf_token %}
+        <button id="exitButton">Exit</button>
+        <script>
+            document.getElementById('exitButton').addEventListener('click', function() {
+                // Assuming you have the cart_id available in your template
+                var cart_id = "{{ cart.cart_id }}";  // Replace with the actual way you get cart_id
+                
+                // Use a simple GET request to unset the session variable
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '{% url "unset_cart_session" %}?cart_id=' + cart_id, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // Redirect to the "services" page after unsetting the session
+                        window.location.href = '{% url "services" %}';
+                    }
+                };
+                xhr.send();
+            });
+        </script>
+
+        <br><br>
+
+        <div>
+            <p>Debug Output:</p>
+            <p>{{ carts }}</p>
+        </div>
+
+        <div class="cartinfo" style="justify-content: space-around;">
+            <div>
+                <p>Cart Name:</p>
+                <p>{{ cart.cartname }}</p>
+            </div>
+            <div>
+                <p>Where to Buy:</p>
+                <p>{{ cart.store_wheretobuy }}</p>
+            </div>
+            <div>
+                <p>Date for Notification:</p>
+                <p>{{ cart.date_for_notification }}</p>
+            </div>
+        </div>
+        
+        <br><br>
+        
+        <form method="post" action="{% url 'delete_selected' %}">
+            {% csrf_token %}
+            <input type="hidden" name="cart_id" value="{{ cart.cart_id }}">
+            <div class="cartinfo" style="height: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Product Description</th>
+                            <th>Total Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in list_items %}
+                            <tr>
+                                <td>{{ item.productname }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.calculate_total }}</td>
+                                <td>
+                                    <input style="width: 25px; height: 25px;" type="checkbox" name="delete_checkbox[]" value="{% if item.list_id %}{{ item.list_id }}{% endif %}">
+                                </td>
+                            </tr>
+                        
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="center">
+                <button style="width: 10rem;" type="submit" class="btn btn-primary" name="delete_selected">Delete the Checked</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

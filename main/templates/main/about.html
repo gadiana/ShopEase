@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div id="navigation">
+        <div id="links">
+            <a href=""><img src="{% static 'assets/logoheader.png' %}" alt=""></a>
+            <ul>
+                {% if request.session.username %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><button id="logout"><a href="{% url 'logout' %}">Logout</a></button></li>
+            {% else %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        <div id="whiteline"></div>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="heading">
+                <h1>
+                    ABOUT US
+                </h1>
+            </div>
+            <div id="aboutcontainer">
+                <div id="aboutdiv">
+                </div>
+                <p>
+                    ShopEase was founded by three dedicated college students with a shared passion for simplifying the shopping experience. Their vision was to create a platform that seamlessly integrates into users' lives, making shopping a breeze. Motivated by a desire to innovate and driven by their academic pursuits, the founders embarked on this project as a testament to their commitment to user-friendly technology. With a keen understanding of the challenges faced by beginners in the realm of shopping, they set out to develop a solution that caters to their needs. Today, ShopEase stands as a testament to their dedication and the embodiment of their collective ambition.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div id="navigation">
+        <div id="links">
+            <a href=""><img src="{% static 'assets/logoheader.png' %}" alt=""></a>
+            <ul>
+            {% if request.session.username %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><button id="logout"><a href="{% url 'logout' %}">Logout</a></button></li>
+            {% else %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        <div id="whiteline"></div>
+    </div>
+
+    <div class="container">
+        <div id="left">
+            <div id="paradiv">
+                <p>
+                    Discover the perfect shopping experience for beginners with
+                    our user-friendly website. ShopEase is designed to streamline
+                    your shopping journey, ensuring every step is straightforward
+                    and intuitive.
+                </p>
+            </div>
+
+            {% if request.session.username %}
+                <div id="btn">
+                    <button>
+                        <a href="{% url 'services' %}">
+                            GET STARTED
+                        </a>
+                    </button>  
+                </div>
+            {% else %}
+                <div id="btn">
+                    <button>
+                        <a href="{% url 'login' %}">
+                            GET STARTED
+                        </a>
+                    </button>  
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="right">
+            <div id="logodiv">
+                <img src="{% static 'assets/logobody.png' %}" alt="">
+            </div>
+            <div>
+                <div id="logodivbottom">
+                        <p>
+                            Create your Shopping 
+                            list in just a minute.
+                        </p>
+                    <img src="{% static 'assets/pngwing.com.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div id="navigation">
+        <div id="links">
+            <a href=""><img src="{% static 'assets/logoheader.png' %}" alt=""></a>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><button id="logout"><a href="{% url 'logout' %}">Logout</a></button></li>
+            </ul>
+        </div>
+        <div id="whiteline"></div>
+    </div>
+
+    <div class="container">
+        <div id="cartcontainer">
+            <button class="cart" id="openModalBtn"><img src="{% static 'assets/cartCreate.png' %}" alt=""></button>
+            <button class="cart" id="openModalBtnManage"><img src="{% static 'assets/cartManage.png' %}" alt=""></button>
+            <button class="cart" id="openModalOpenCart"><img src="{% static 'assets/cartCheck1.png' %}" alt=""></button>
+        </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-content" style="width: 30%;">
+                <span class="close" id="closeModalBtn">&times;</span>
+                <br>
+                <h1>Create Cart</h1>
+                <form method="post" action="{% url 'create_cart' %}">
+                    {% csrf_token %}
+                    <div>
+                        <label for="txtCartName">Set a Name for your Cart:</label>
+                        <input type="text" id="txtCartName" name="txtCartName" placeholder="CartName" style="width: 100%; text-align: center;" required>
+                        <label for="txtCartStore">Set Store Name (Where will you buy it?):</label>
+                        <input type="text" id="txtCartStore" name="txtCartStore" placeholder="Store Name" style="width: 100%; text-align: center;" required>
+                        <label for="txtDate" >Select a Date for Notification:</label>
+                        <input type="date" id="txtDate" name="txtDate" min="{{ today }}" style="width: 100%;" required>
+                    </div>
+                    <br>
+                    <div class="center">
+                        <button type="submit" style="color: white;">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Manage Cart -->
+
+        {% block content %}
+        <div id="modalManage" class="modal container-full">
+            <div class="modal-contentmanage" style="width: 40%; max-height: 70vh; overflow-y: auto;">
+                <span class="close" id="closeModalBtnManage">&times;</span>
+                <br>
+                <h1>Manage Cart</h1>
+                <div class="cartinfo" style="padding-right: 12%;">
+                    <table>
+                        <tr style="border-bottom: 1px solid black;">
+                            <td>Cart Name</td>
+                            <td>Shopping Date</td>
+                            <td>Cart Amount</td>
+                            <td>Action</td>
+                        </tr>
+                        {% for cart in cart_rows %}
+                            <tr>
+                                <td>{{ cart.cartname }}</td>
+                                <td>{{ cart.date_for_notification }}</td>
+                                <td>Php: {{ cart.cartamount }}</td>
+                                <td><a href="{% url 'create_manage' cart_id=cart.cart_id %}">M</a> |  <a href="{% url 'delete_cart' cart_id=cart.cart_id %}">D</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan='3'>No records found</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+
+
+        <div id="modalOpenCart" class="modal">
+            <div class="modal-content" style="width: 40%; max-height: 70vh; overflow-y: auto;">
+                <span class="close" id="closeModalOpenCart">&times;</span>
+                <br>
+                <h1>Open Cart</h1>
+                <div class="cartinfo" style="padding-right: 12%;">
+                    <table width='100%' border=1>
+                        <tr bgcolor='98E4FF'>
+                            <td>Cart Name</td>
+                            <td>Assigned Date for Shopping</td>
+                            <td></td>
+                        </tr>
+                        {% for row in cart_rows %}
+                            <tr>
+                                <td>{{ row.cartname }}</td>
+                                <td>{{ row.date_for_notification }}</td>
+                                <td><a href="{% url 'view_cart' cart_id=row.cart_id %}">Open</a></td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan='3'>No records found</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="clickabove">
+        <h1>
+            CLICK ABOVE!
+        </h1>
+    </div>
+
+
+
+<script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

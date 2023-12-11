@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div id="navigation">
+        <div id="links">
+            <a href=""><img src="{% static 'assets/logoheader.png' %}" alt=""></a>
+            <ul>
+                {% if request.session.username %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><button id="logout"><a href="{% url 'logout' %}">Logout</a></button></li>
+            {% else %}
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        <div id="whiteline"></div>
+    </div>
+
+    <div class="containerpage">
+
+        <div class="heading">
+            <h1>
+                GET IN TOUCH!
+            </h1>
+        </div>
+        <div id="contactcontainer">
+            <div class="contactsection">
+                <div class="icon">
+                    <img src="{% static 'assets/icon/location.png' %}" alt="">
+                </div>
+                <br>
+                <div class="contactinfo">
+                    <p>
+                        Lot 3, Gadiana building, Kasanyangan, Zamboanga City, 7000
+                    </p>
+                    <br>
+                    <p>
+                        Kobe music studio, Baliwasan, Zamboanga City, 7000
+                    </p>
+                    <br>
+                    <p>
+                        Milbert Corp., Ayala, Zamboanga City 7000
+                    </p>
+                    <br>
+                </div>
+            </div>
+            <div class="contactsection">
+                <div class="icon">
+                    <img src="{% static 'assets/icon/phone.png' %}" alt="">
+                </div>
+                <br>
+                <div class="contactinfo">
+                    <p>
+                        Milbert : 09194431353
+                    </p>
+                    <br>
+                    <p>
+                        Jhon : 09364202029
+                    </p>
+                    <br>
+                    <p>
+                        Kobe : 09317746153
+                    </p>
+                    <br>
+                </div>
+            </div>
+            <div class="contactsection">
+                <div class="icon">
+                    <img src="{% static 'assets/icon/email.png' %}" alt="">
+                </div>
+                <br>
+                <div class="contactinfo">
+                    <p>
+                        Milbert : milbert@gmial.com
+                    </p>
+                    <br>
+                    <p>
+                        Jhon : jhon@gmail.com
+                    </p>
+                    <br>
+                    <p>
+                        Kobe : kobe@gmail.com
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div id="contactfooter">
+            <div id="whitelineupper"></div>
+            <div id="redirect">
+                <a href=""><img src="{% static 'assets/icon/facebook.png' %}" alt=""></a>
+                <a href=""><img src="{% static 'assets/icon/insta.png' %}" alt=""></a>
+                <a href=""><img src="{% static 'assets/icon/tiktok.png' %}" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

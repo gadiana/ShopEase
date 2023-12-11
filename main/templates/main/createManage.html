@@ -1,0 +1,144 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wholecontainer">
+        {% csrf_token %}
+        <button id="exitButton">Exit</button>
+        <script>
+            document.getElementById('exitButton').addEventListener('click', function() {
+                // Assuming you have the cart_id available in your template
+                var cart_id = "{{ cart_id }}";  // Replace with the actual way you get cart_id
+                
+                // Use a simple GET request to unset the session variable
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '{% url "unset_cart_session" %}?cart_id=' + cart_id, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // Redirect to the "services" page after unsetting the session
+                        window.location.href = '{% url "services" %}';
+                    }
+                };
+                xhr.send();
+            });
+        </script>
+
+        <br><br>
+        <div class="cartinfo">
+            <form action="{% url 'update_cart' cart.cart_id %}" method="POST">
+                {% csrf_token %}
+                <div>
+                    <input style="padding: 10px; font-size: 3rem; text-align: center; color: white; border:0; background-color: rgb(1, 1, 1, 0); border-bottom: 2px solid black; border-radius: 0;" type="text" name="cartName" value="{{ cart.cartname }}" readonly>
+                </div>
+                <br>
+                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                    <label for="cartShop">Shop Name: </label>
+                    <input style="width: auto; margin-right: 15px; font-size: 20px; text-align: center; color: white; border:0; background-color: rgb(1, 1, 1, 0);" type="text" name="cartShop" value="{{ cart.store_wheretobuy }}" readonly>
+
+                    <label for="dateForNotification">Date to Notify: </label>
+                    <input style="font-size: 20px; text-align: center; color: white; border:0; background-color: rgb(1, 1, 1, 0);" type="date" name="dateForNotification" value="{{formatted_date}}" readonly>
+                </div>
+                <br>
+                <br>
+                <div class="center" style="width: 40%;">
+                    <button type="submit">Update Cart Info</button>
+                </div>
+            </form>
+        </div>
+        <br><br>
+
+
+    <br><br>
+    <form action="{% url 'insert_data' cart.cart_id %}" method="post">
+        {% csrf_token %}
+        <div class="cartinfo">
+            <div class="productinfoinput">
+                <label for="ProductName">ProductName:</label>
+                <input type="text" name="ProductName" required>
+            </div>
+            <div class="productinfoinput">
+                <label for="Category">Category:</label>
+                <input type="text" name="Category" required>
+            </div>
+
+            <div class="productinfoinput">
+                <label for="Quantity">Quantity:</label>
+                <input type="number" name="Quantity" min="0" required>
+            </div>
+            <div class="productinfoinput">
+                <label for="Price">Price:</label>
+                <input type="number" name="Price" min="0" required>
+            </div>
+        </div>
+        <div class="cartinfo" style="margin-top: -50px;">
+            <div class="productinfoinput">
+                <label for="ProductDescription">ProductDescription:</label>
+                <textarea name="ProductDescription" cols="80" style="border-radius: 10px; border: 2px solid black;" required></textarea>
+            </div>
+        </div>
+        <div class="center" style="width: 20%;">
+            <button type="submit">Add To Cart</button>
+        </div>
+    </form>
+
+
+    <div class="cartinfo" style="height: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Product Description</th>
+                    <th>Total Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in list_items %}
+                <tr>
+                    <td>{{ item.productname }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.calculate_total }}</td>
+                    <td>
+                        <div id="action" style="display: flex;">
+                            <form method="post" action="{% url 'delete_item' item.list_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class='btntable' style='background-color:red;'>Delete</button>
+                            </form>
+                            <form method="post" action="{% url 'edit_list_item' list_id=item.list_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class='btntable' style='background-color:green;'>Edit</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total Sum: {{ total_sum }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

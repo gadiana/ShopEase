@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-full">
+        <div id="pannel">
+        <form action="{% url 'login' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="center">
+                <h1 style="color: white;">
+                    Log In
+                </h1>    
+            </div>
+            <br>
+            <label style="color: white;" for="username">Username</label>
+            <div class="center">
+                <input type="text" name="username" id="username" required>
+            </div>
+            <br>
+            <label style="color: white;" for="password">Password</label>
+            <div class="center">
+                <input type="password" name="password" id="password" required>
+            </div>
+            <br>
+            <div class="center">
+                <button type="submit" id="butlogin1">LOGIN</button>
+            </div>
+            <br>
+            <div class="center">
+                <p style="color: white;">Not Yet Registered?</p>
+                <a href="{% url 'register' %}">&#160; Register</a>
+            </div>
+            <br>
+            <div class="center">
+                <a href="{% url 'index' %}">Back to Home</a>
+            </div>
+        </form>    
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+</html>
+<script src="{% static 'js/script.js' %}"></script>

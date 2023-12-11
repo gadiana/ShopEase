@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/view.css' %}">
+    <title>Edit Cart</title>
+</head>
+<body>
+<div class="container">
+    {% if cart %}
+        <form method="POST" action="{% url 'edit_cart' cart_id=cart.cart_id %}">
+            {% csrf_token %}
+            <input type="hidden" name="cartId" value="{{ cart.cart_id }}" required>
+            Cart Name: <input class="form-control" style="width:300%;" type="text" name="cartname" value="{{ cart.cartname }}"><br>
+            Store Where to Buy: <input class="form-control" style="width:300%;" type="text" name="store_wheretobuy" value="{{ cart.store_wheretobuy }}" required><br>
+            Date for Notification: <input class="form-control" style="width:300%;" type="date" name="date_for_notification" value="{{ cart.date_for_notification }}" required><br>
+            <div class="center">
+                <input type="submit" value="Update">
+            </div>
+        </form>
+    {% else %}
+        No record found for the provided cartId.
+    {% endif %}
+</div>
+</body>
+</html>
